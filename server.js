@@ -11,7 +11,7 @@ import wishlistRoute from './routes/wishlistRoute.js'
 import cartRoutes from './routes/cartRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import orderRoutes from "./routes/orderRoutes.js"
-import userRoutes from './routes/userRoutes.js'
+import adminRoutes from './routes/adminRoutes.js'
 
 const app = express();
 
@@ -37,7 +37,7 @@ app.use('/users', wishlistRoute)
 app.use("/api/user", cartRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/orders', orderRoutes);
-app.use("/users", userRoutes);
+app.use("/users", adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

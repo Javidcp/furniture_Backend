@@ -154,6 +154,22 @@ export const updateOrderPaymentStatus = asyncErrorHandling(async (req, res, next
 });
 
 
+export const cancelOrder = asyncErrorHandling(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+  if (!order) return next(new Error('Order not found'));
+
+  if (req.user.role !== 'admin' && order.userId.toString() !== req.user.id) {
+    return next(new Error('Unauthorized to cancel this order'));
+  }
+
+  order.orderStatus = 'cancelled';
+  await order.save();
+
+  res.json({ success: true, order });
+});
+
+
+
 
 export const getAllOrders = asyncErrorHandling(async (req, res, next) => {
   const orders = await Order.find().sort({ createdAt: -1 }).populate('userId', 'name email');
@@ -190,21 +206,6 @@ export const updateOrderStatus = asyncErrorHandling(async (req, res, next) => {
   });
 });
 
-
-
-export const cancelOrder = asyncErrorHandling(async (req, res, next) => {
-  const order = await Order.findById(req.params.id);
-  if (!order) return next(new Error('Order not found'));
-
-  if (req.user.role !== 'admin' && order.userId.toString() !== req.user.id) {
-    return next(new Error('Unauthorized to cancel this order'));
-  }
-
-  order.orderStatus = 'cancelled';
-  await order.save();
-
-  res.json({ success: true, order });
-});
 
 
 

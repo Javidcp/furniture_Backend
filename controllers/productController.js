@@ -111,7 +111,7 @@ export const addProduct = async (req, res, next) => {
 
     return res.status(201).json({ message: 'Product added', product: newProduct });
   } catch (error) {
-    console.error("🔥 Error in addProduct:", error);
+    console.error("Error in addProduct:", error);
     return res.status(500).json({ message: 'Something went wrong', error: error.message });
   }
 };
